@@ -76,23 +76,35 @@ class _ProductScreenBody extends StatelessWidget {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        child: productService.isSaving
-            ? CircularProgressIndicator(color: Colors.white)
-            : Icon(Icons.save_outlined),
-        onPressed: productService.isSaving
-            ? null
-            : () async {
-                if (!productForm.isValidForm()) return;
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton(
+            child: productService.isSaving
+                ? CircularProgressIndicator(color: Colors.white)
+                : Icon(Icons.save_outlined),
+            onPressed: productService.isSaving
+                ? null
+                : () async {
+                    if (!productForm.isValidForm()) return;
 
-                final String? imageUrl = await productService.uploadImage();
+                    final String? imageUrl = await productService.uploadImage();
 
-                if (imageUrl != null) productForm.product.picture = imageUrl;
+                    if (imageUrl != null) productForm.product.picture = imageUrl;
 
-                await productService.saveOrCreateProduct(productForm.product);
+                    await productService.saveOrCreateProduct(productForm.product);
 
+                    Navigator.of(context).pop();
+                  },
+          ),
+          SizedBox(width: 10),
+          FloatingActionButton(
+              child: Icon(Icons.delete),
+              onPressed: () async {
+                await productService.deleteProduct(productForm.product);
                 Navigator.of(context).pop();
-              },
+          })
+        ],
       ),
     );
   }

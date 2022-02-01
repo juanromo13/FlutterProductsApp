@@ -78,11 +78,25 @@ class ProductsService extends ChangeNotifier {
     final url = Uri.https(_baseUrl, 'products/${product.id}.json', {
       'auth': await storage.read(key: 'token') ?? ''
     });
-    final res = await http.put(url, body: product.toJson());
+    final res = await http.delete(url, body: product.toJson());
     final decodedData = res.body;
 
     final index =
         this.products.indexWhere((element) => element.id == product.id);
+    this.products[index] = product;
+
+    return product.id!;
+  }
+
+  Future<String> deleteProduct(Product product) async {
+    final url = Uri.https(_baseUrl, 'products/${product.id}.json', {
+      'auth': await storage.read(key: 'token') ?? ''
+    });
+    final res = await http.delete(url);
+    final decodedData = res.body;
+
+    final index =
+    this.products.indexWhere((element) => element.id == product.id);
     this.products[index] = product;
 
     return product.id!;
