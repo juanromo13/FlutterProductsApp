@@ -120,10 +120,10 @@ class ProductsService extends ChangeNotifier {
     notifyListeners();
 
     final url = Uri.parse(
-        'https://api.cloudinary.com/v1_1/dx0pryfzn/image/upload?upload_preset=autwc6pa');
+        'https://api.cloudinary.com/v1_1/dcr0ogjg5/image/upload?upload_preset=yxwjw4mw');
     final imageUploadRequest = http.MultipartRequest('POST', url);
-    final file =
-        await http.MultipartFile.fromPath('file', newPictureFile!.path);
+
+    final file = await http.MultipartFile.fromPath('file', newPictureFile!.path);
 
     imageUploadRequest.files.add(file);
 
